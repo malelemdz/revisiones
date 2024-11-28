@@ -287,7 +287,7 @@
 
     <main class="main-content">
         <div class="video-container">
-            <video class="custom-video" id="mainVideo">
+            <video class="custom-video" id="mainVideo" preload="auto">
                 <source src="https://ia800106.us.archive.org/22/items/video-memoria/video-memoria.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -328,6 +328,27 @@
             const progress = document.querySelector('.progress');
 
             let controlsTimeout;
+
+            // Add preloading status indicator
+            let isLoading = true;
+            
+            // Handle video loading
+            video.addEventListener('loadeddata', () => {
+                isLoading = false;
+                console.log('Video preloaded successfully');
+            });
+
+            // Add error handling for loading
+            video.addEventListener('error', (e) => {
+                console.error('Error loading video:', e);
+            });
+
+            // Start preloading immediately
+            try {
+                video.load();
+            } catch (e) {
+                console.error('Error initiating video preload:', e);
+            }
 
             function hideControls() {
                 videoControls.classList.add('hidden');
