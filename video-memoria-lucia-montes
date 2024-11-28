@@ -1,0 +1,385 @@
+<html lang="es">
+<head>
+    <base href="." >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://github.com/malelemdz/malelemdz.github.io/blob/main/source/ico.png?raw=true">
+    <title>Revisión de video</title>
+    <style>
+        :root {
+            --dark-blue: #021321;
+            --turquoise: #03cdba;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-blue);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(180deg, rgba(2,19,33,1) 0%, rgba(2,19,33,0.9) 100%);
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(3, 205, 186, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--turquoise), transparent);
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            margin: 2rem 0;
+            background-color: rgba(3, 205, 186, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(3, 205, 186, 0.3);
+            transition: border-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .video-container:hover {
+            border-color: var(--turquoise);
+        }
+
+        .custom-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .play-pause, .fullscreen {
+            background: var(--turquoise);
+            border: none;
+            color: var(--dark-blue);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .play-pause:hover, .fullscreen:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: height 0.2s ease;
+        }
+
+        .progress-bar:hover {
+            height: 8px;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--turquoise);
+            width: 0;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .title {
+            color: var(--turquoise);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .description {
+            background: rgba(3, 205, 186, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(3, 205, 186, 0.3);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .description:hover {
+            transform: translateY(-5px);
+            border-color: var(--turquoise);
+        }
+
+        .description h2 {
+            color: var(--turquoise);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .whatsapp-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 2rem auto;
+            max-width: fit-content;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            background-color: #128C7E;
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--white);
+            opacity: 0.7;
+            margin-top: auto;
+            background: linear-gradient(0deg, rgba(2,19,33,1) 0%, rgba(2,19,33,0.9) 100%);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 0 1.5rem;
+                margin: 2rem auto;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .video-controls {
+                padding: 15px;
+            }
+
+            .description {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.5rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+                margin: 1.5rem auto;
+            }
+
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .description {
+                padding: 1.2rem;
+            }
+
+            .video-controls {
+                padding: 10px;
+            }
+
+            .play-pause, .fullscreen {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .footer {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <a href="https://malelemdz.com" target="_blank" rel="noopener">
+            <img src="https://github.com/malelemdz/malelemdz.github.io/blob/main/source/ico.png?raw=true" alt="Logo" class="logo">
+        </a>
+        <h1 class="title">Revisión de Video</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="video-container">
+            <video class="custom-video" id="mainVideo">
+                <source src="https://ia800106.us.archive.org/22/items/video-memoria/video-memoria.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-controls">
+                <button class="play-pause">Play</button>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <button class="fullscreen">⤢</button>
+            </div>
+        </div>
+
+        <div class="description">
+            <h2>Video Memoria - 15 Años</h2>
+            <p>¡Estoy ansioso por conocer tu opinión! Por favor, revisa el video adjunto y comunícate conmigo a través de WhatsApp para solicitar cualquier cambio o ajuste que consideres necesario. Si estás satisfecho con el resultado, solo házmelo saber y te proporcionaré el enlace de descarga en alta calidad.</p>
+        </div>
+
+        <a href="https://wa.me/59162643571" class="whatsapp-button" target="_blank">
+            <svg class="whatsapp-icon" viewBox="0 0 24 24">
+                <path d="M20.4 3.6C18.2 1.3 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.5 4.2 1.4 6L0 24l6.2-1.4c1.8.9 3.8 1.4 5.8 1.4 6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.6-8.4zM12 22c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.8.9.9-3.8-.2-.4C2.5 15.6 2 13.8 2 12 2 6.5 6.5 2 12 2c2.6 0 5 1 6.8 2.8C20.6 6.6 21.6 9.2 21.6 12c0 5.5-4.5 10-9.6 10zm5.2-7.4c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.1-.2.2-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.8-1.6-4-3.6-.3-.5.3-.5.9-1.7.1-.2 0-.4-.1-.6s-.7-1.8-1-2.4c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.3 1.3 3.6c.1.2 2.1 3.3 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4z"/>
+            </svg>
+            WhatsApp
+        </a>
+    </main>
+
+    <footer class="footer">
+        Malelemdz © 2024
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('mainVideo');
+            const videoContainer = document.querySelector('.video-container');
+            const videoControls = document.querySelector('.video-controls');
+            const playPauseBtn = document.querySelector('.play-pause');
+            const fullscreenBtn = document.querySelector('.fullscreen');
+            const progressBar = document.querySelector('.progress-bar');
+            const progress = document.querySelector('.progress');
+
+            let controlsTimeout;
+
+            function hideControls() {
+                videoControls.classList.add('hidden');
+            }
+
+            function showControls() {
+                videoControls.classList.remove('hidden');
+                if (controlsTimeout) {
+                    clearTimeout(controlsTimeout);
+                }
+                controlsTimeout = setTimeout(hideControls, 3000);
+            }
+
+            videoContainer.addEventListener('mousemove', showControls);
+            videoContainer.addEventListener('mouseleave', hideControls);
+
+            playPauseBtn.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.textContent = 'Pause';
+                } else {
+                    video.pause();
+                    playPauseBtn.textContent = 'Play';
+                }
+            });
+
+            video.addEventListener('timeupdate', () => {
+                const percentage = (video.currentTime / video.duration) * 100;
+                progress.style.width = percentage + '%';
+            });
+
+            progressBar.addEventListener('click', (e) => {
+                const pos = (e.pageX - progressBar.offsetLeft) / progressBar.offsetWidth;
+                video.currentTime = pos * video.duration;
+            });
+
+            fullscreenBtn.addEventListener('click', () => {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            });
+
+            video.addEventListener('ended', () => {
+                playPauseBtn.textContent = 'Play';
+            });
+
+            setTimeout(hideControls, 3000);
+        });
+    </script>
+</body>
+</html>
