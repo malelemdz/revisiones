@@ -1,6 +1,4 @@
-<html lang="es">
-<head>
-    <base href="." >
+<html><head><base href=".">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://github.com/malelemdz/malelemdz.github.io/blob/main/source/ico.png?raw=true">
@@ -82,74 +80,13 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .video-container:hover {
-            border-color: var(--turquoise);
-        }
-
         .custom-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-
-        .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .video-controls.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .play-pause, .fullscreen {
-            background: var(--turquoise);
             border: none;
-            color: var(--dark-blue);
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .play-pause:hover, .fullscreen:hover {
-            background: var(--white);
-            transform: translateY(-2px);
-        }
-
-        .progress-bar {
-            flex-grow: 1;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: height 0.2s ease;
-        }
-
-        .progress-bar:hover {
-            height: 8px;
-        }
-
-        .progress {
-            height: 100%;
-            background: var(--turquoise);
-            width: 0;
-            border-radius: 10px;
-            transition: width 0.1s linear;
         }
 
         .title {
@@ -234,10 +171,6 @@
                 font-size: 2rem;
             }
 
-            .video-controls {
-                padding: 15px;
-            }
-
             .description {
                 padding: 1.5rem;
             }
@@ -261,15 +194,6 @@
                 padding: 1.2rem;
             }
 
-            .video-controls {
-                padding: 10px;
-            }
-
-            .play-pause, .fullscreen {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
-
             .footer {
                 font-size: 0.7rem;
             }
@@ -287,17 +211,12 @@
 
     <main class="main-content">
         <div class="video-container">
-            <video class="custom-video" id="mainVideo" preload="auto">
-                <source src="https://ia600606.us.archive.org/0/items/video-memoria-15-anos-final/Video%20Memoria%2015%20A%C3%B1os%20Final.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="video-controls">
-                <button class="play-pause">Play</button>
-                <div class="progress-bar">
-                    <div class="progress"></div>
-                </div>
-                <button class="fullscreen">⤢</button>
-            </div>
+            <iframe src="https://drive.google.com/file/d/1dfv1II7kJpMExXMrxAfVZw-2aykFy8Je/preview" 
+                    class="custom-video" 
+                    allow="autoplay"
+                    frameborder="0"
+                    allowfullscreen>
+            </iframe>
         </div>
 
         <div class="description">
@@ -314,93 +233,7 @@
     </main>
 
     <footer class="footer">
-        Malelemdz © 2024
+        Malelemdz &copy; 2024
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('mainVideo');
-            const videoContainer = document.querySelector('.video-container');
-            const videoControls = document.querySelector('.video-controls');
-            const playPauseBtn = document.querySelector('.play-pause');
-            const fullscreenBtn = document.querySelector('.fullscreen');
-            const progressBar = document.querySelector('.progress-bar');
-            const progress = document.querySelector('.progress');
-
-            let controlsTimeout;
-
-            // Add preloading status indicator
-            let isLoading = true;
-            
-            // Handle video loading
-            video.addEventListener('loadeddata', () => {
-                isLoading = false;
-                console.log('Video preloaded successfully');
-            });
-
-            // Add error handling for loading
-            video.addEventListener('error', (e) => {
-                console.error('Error loading video:', e);
-            });
-
-            // Start preloading immediately
-            try {
-                video.load();
-            } catch (e) {
-                console.error('Error initiating video preload:', e);
-            }
-
-            function hideControls() {
-                videoControls.classList.add('hidden');
-            }
-
-            function showControls() {
-                videoControls.classList.remove('hidden');
-                if (controlsTimeout) {
-                    clearTimeout(controlsTimeout);
-                }
-                controlsTimeout = setTimeout(hideControls, 3000);
-            }
-
-            videoContainer.addEventListener('mousemove', showControls);
-            videoContainer.addEventListener('mouseleave', hideControls);
-
-            playPauseBtn.addEventListener('click', () => {
-                if (video.paused) {
-                    video.play();
-                    playPauseBtn.textContent = 'Pause';
-                } else {
-                    video.pause();
-                    playPauseBtn.textContent = 'Play';
-                }
-            });
-
-            video.addEventListener('timeupdate', () => {
-                const percentage = (video.currentTime / video.duration) * 100;
-                progress.style.width = percentage + '%';
-            });
-
-            progressBar.addEventListener('click', (e) => {
-                const pos = (e.pageX - progressBar.offsetLeft) / progressBar.offsetWidth;
-                video.currentTime = pos * video.duration;
-            });
-
-            fullscreenBtn.addEventListener('click', () => {
-                if (video.requestFullscreen) {
-                    video.requestFullscreen();
-                } else if (video.webkitRequestFullscreen) {
-                    video.webkitRequestFullscreen();
-                } else if (video.msRequestFullscreen) {
-                    video.msRequestFullscreen();
-                }
-            });
-
-            video.addEventListener('ended', () => {
-                playPauseBtn.textContent = 'Play';
-            });
-
-            setTimeout(hideControls, 3000);
-        });
-    </script>
 </body>
 </html>
