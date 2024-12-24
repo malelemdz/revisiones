@@ -1,5 +1,4 @@
-<html><head><base href="
-">
+<html><head><base href="">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://github.com/malelemdz/malelemdz.github.io/blob/main/source/ico.png?raw=true">
@@ -21,7 +20,11 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-gray);
+            background: linear-gradient(135deg, rgba(27,27,27,1) 0%, rgba(33,33,33,1) 100%);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(64, 190, 101, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(21, 149, 231, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(27,27,27,1) 0%, rgba(33,33,33,1) 100%);
             color: var(--white);
             line-height: 1.6;
             min-height: 100vh;
@@ -31,22 +34,56 @@
             overflow-x: hidden;
         }
 
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: floatingLight 20s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        body::before {
+            background: var(--green);
+            top: -100px;
+            left: -100px;
+            animation-delay: -5s;
+        }
+
+        body::after {
+            background: var(--blue);
+            bottom: -100px;
+            right: -100px;
+        }
+
+        @keyframes floatingLight {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(50px, 50px) scale(1.2);
+            }
+            100% {
+                transform: translate(-50px, -50px) scale(1);
+            }
+        }
+
         .header {
-            background: rgba(27,27,27,0.95);
-            padding: 2rem;
-            backdrop-filter: blur(10px);
+            padding: 2rem 2rem 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             z-index: 1000;
-            border-bottom: 1px solid rgba(64, 190, 101, 0.2);
         }
 
         .logo {
             width: 60px;
             height: auto;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem; 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             filter: drop-shadow(0 0 10px rgba(64, 190, 101, 0.3));
         }
@@ -58,7 +95,7 @@
 
         .main-content {
             max-width: 1200px;
-            margin: 2rem auto;
+            margin: 0 auto;
             padding: 0 2rem;
             flex: 1;
             width: 100%;
@@ -69,13 +106,18 @@
             width: 100%;
             height: 0;
             padding-bottom: 56.25%;
-            margin: 2rem 0;
+            margin: 1rem 0;
             background: var(--dark-gray);
             border-radius: 20px;
             overflow: hidden;
             border: 2px solid rgba(64, 190, 101, 0.2);
             transition: all 0.3s ease;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
         }
 
         .video-container:hover {
@@ -91,6 +133,10 @@
             width: 100%;
             height: 100%;
             border: none;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
         }
 
         .title {
@@ -98,7 +144,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             font-size: 2.5rem;
             font-weight: 600;
             letter-spacing: 1px;
@@ -180,10 +226,7 @@
             font-size: 0.8rem;
             font-weight: 300;
             color: var(--light-gray);
-            background: rgba(27,27,27,0.95);
-            backdrop-filter: blur(10px);
             letter-spacing: 1px;
-            border-top: 1px solid rgba(64, 190, 101, 0.2);
         }
 
         @media (max-width: 768px) {
@@ -255,5 +298,4 @@
     <footer class="footer">
         Malelemdz &copy; 2024
     </footer>
-</body>
-</html>
+</body></html>
