@@ -1,6 +1,6 @@
-<html><head><base href="">
-    <meta charset="UTF-8">
+<html><head><base href=""><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
     <link rel="icon" type="image/png" href="https://github.com/malelemdz/malelemdz.github.io/blob/main/source/ico.png?raw=true">
     <title>Revisión de video</title>
     <style>
@@ -10,6 +10,12 @@
             --white: #ffffff;
             --blue: #1595e7;
             --light-gray: #f4f4f4;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                color-scheme: light;
+            }
         }
 
         * {
@@ -32,6 +38,8 @@
             flex-direction: column;
             position: relative;
             overflow-x: hidden;
+            color-scheme: light;
+            forced-color-adjust: none;
         }
 
         body::before, body::after {
@@ -118,6 +126,7 @@
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             -webkit-backface-visibility: hidden;
+            will-change: transform;
         }
 
         .video-container:hover {
@@ -137,6 +146,7 @@
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             -webkit-backface-visibility: hidden;
+            will-change: transform;
         }
 
         .title {
