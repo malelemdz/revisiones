@@ -1,13 +1,16 @@
-<html><head><base href=".">
+<html><head><base href="
+">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://github.com/malelemdz/malelemdz.github.io/blob/main/source/ico.png?raw=true">
     <title>Revisión de video</title>
     <style>
         :root {
-            --dark-blue: #021321;
-            --turquoise: #03cdba;
+            --dark-gray: #1b1b1b;
+            --green: #40be65;
             --white: #ffffff;
+            --blue: #1595e7;
+            --light-gray: #f4f4f4;
         }
 
         * {
@@ -18,50 +21,44 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-blue);
+            background-color: var(--dark-gray);
             color: var(--white);
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
         }
 
         .header {
-            background: linear-gradient(180deg, rgba(2,19,33,1) 0%, rgba(2,19,33,0.9) 100%);
+            background: rgba(27,27,27,0.95);
             padding: 2rem;
-            box-shadow: 0 4px 15px rgba(3, 205, 186, 0.1);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--turquoise), transparent);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(64, 190, 101, 0.2);
         }
 
         .logo {
             width: 60px;
             height: auto;
             margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 10px rgba(64, 190, 101, 0.3));
         }
 
         .logo:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 15px rgba(64, 190, 101, 0.5));
         }
 
         .main-content {
             max-width: 1200px;
-            margin: 3rem auto;
+            margin: 2rem auto;
             padding: 0 2rem;
             flex: 1;
             width: 100%;
@@ -70,14 +67,21 @@
         .video-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%;
+            height: 0;
+            padding-bottom: 56.25%;
             margin: 2rem 0;
-            background-color: rgba(3, 205, 186, 0.05);
-            border-radius: 15px;
+            background: var(--dark-gray);
+            border-radius: 20px;
             overflow: hidden;
-            border: 2px solid rgba(3, 205, 186, 0.3);
-            transition: border-color 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid rgba(64, 190, 101, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+            border-color: var(--green);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
         }
 
         .custom-video {
@@ -90,63 +94,84 @@
         }
 
         .title {
-            color: var(--turquoise);
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 1rem;
             font-size: 2.5rem;
             font-weight: 600;
             letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .title:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px rgba(64, 190, 101, 0.5));
         }
 
         .description {
-            background: rgba(3, 205, 186, 0.05);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 1px solid rgba(3, 205, 186, 0.3);
+            background: rgba(64, 190, 101, 0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(64, 190, 101, 0.2);
             margin-top: 2rem;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
         }
 
         .description:hover {
             transform: translateY(-5px);
-            border-color: var(--turquoise);
+            border-color: var(--green);
+            box-shadow: 0 15px 40px rgba(64, 190, 101, 0.2);
         }
 
         .description h2 {
-            color: var(--turquoise);
+            color: var(--blue);
             margin-bottom: 1rem;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .description p {
+            color: var(--light-gray);
+            font-weight: 300;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         .whatsapp-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            background-color: #25D366;
-            color: white;
-            padding: 12px 24px;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            color: var(--white);
+            padding: 15px 30px;
             border-radius: 30px;
             text-decoration: none;
-            font-weight: 600;
-            margin: 2rem auto;
+            font-weight: 500;
+            margin: 3rem auto;
             max-width: fit-content;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(64, 190, 101, 0.3);
         }
 
         .whatsapp-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
-            background-color: #128C7E;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(64, 190, 101, 0.4);
         }
 
         .whatsapp-icon {
             width: 24px;
             height: 24px;
             fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-button:hover .whatsapp-icon {
+            transform: scale(1.1);
         }
 
         .footer {
@@ -154,17 +179,17 @@
             padding: 1.5rem;
             font-size: 0.8rem;
             font-weight: 300;
-            color: var(--white);
-            opacity: 0.7;
-            margin-top: auto;
-            background: linear-gradient(0deg, rgba(2,19,33,1) 0%, rgba(2,19,33,0.9) 100%);
+            color: var(--light-gray);
+            background: rgba(27,27,27,0.95);
+            backdrop-filter: blur(10px);
             letter-spacing: 1px;
+            border-top: 1px solid rgba(64, 190, 101, 0.2);
         }
 
         @media (max-width: 768px) {
             .main-content {
                 padding: 0 1.5rem;
-                margin: 2rem auto;
+                margin: 1.5rem auto;
             }
 
             .title {
@@ -181,11 +206,6 @@
                 padding: 1.5rem;
             }
 
-            .main-content {
-                padding: 0 1rem;
-                margin: 1.5rem auto;
-            }
-
             .title {
                 font-size: 1.8rem;
             }
@@ -194,12 +214,12 @@
                 padding: 1.2rem;
             }
 
-            .footer {
-                font-size: 0.7rem;
+            .whatsapp-button {
+                padding: 12px 24px;
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
@@ -211,7 +231,7 @@
 
     <main class="main-content">
         <div class="video-container">
-            <iframe src="https://drive.google.com/file/d/1MeHYBec3r3_wAX9kiDqSDU28pVgYKIWo/preview" 
+            <iframe src="https://drive.google.com/file/d/1ahY4iZ1ko9p5pPNxUJ3_w9EuKkli-i43/preview" 
                     class="custom-video" 
                     allow="autoplay"
                     frameborder="0"
@@ -221,7 +241,7 @@
 
         <div class="description">
             <h2>Videoblog - Parte 1</h2>
-            <p>Por favor, revisa el video adjunto y si estás satisfecho con el resultado, haz clic en la flecha de la esquina superior derecha para descargar el video en alta calidad.</p>
+            <p>Revisa el video y si estás satisfecho con el resultado, haz clic en la flecha de la esquina superior derecha para descargar el video en alta calidad desde Google Drive.</p>
         </div>
 
         <a href="https://wa.me/59162643571" class="whatsapp-button" target="_blank">
